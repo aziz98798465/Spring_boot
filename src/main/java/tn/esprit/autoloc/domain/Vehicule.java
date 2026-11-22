@@ -1,6 +1,7 @@
 
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,9 +46,11 @@ public class Vehicule {
     private Agence agence;
 
     @OneToMany(mappedBy = "vehicule", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Reservation> reservations = new ArrayList<>();
 
     @OneToMany(mappedBy = "vehicule", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Maintenance> maintenances = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -56,5 +59,6 @@ public class Vehicule {
             joinColumns = @JoinColumn(name = "id_vehicule"),
             inverseJoinColumns = @JoinColumn(name = "id_equipement")
     )
+    @JsonIgnore
     private List<Equipement> equipements = new ArrayList<>();
 }

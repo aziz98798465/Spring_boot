@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import tn.esprit.autoloc.domain.Vehicule;
 import tn.esprit.autoloc.service.IVehiculeService;
@@ -40,6 +42,22 @@ public class VehiculeController {
                 .map(VehiculeMapper::toDTO)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/disponibles")
+    public Page<VehiculeDTO> afficherDisponibles(Pageable pageable) {
+        return vehiculeService.rechercherDisponibles(pageable)
+                .map(VehiculeMapper::toDTO);
+    }
+
+    @GetMapping("/recherche")
+    public Page<VehiculeDTO> rechercher(
+            @RequestParam String ville,
+            @RequestParam tn.esprit.autoloc.domain.CategorieVehicule categorie,
+            Pageable pageable) {
+        return vehiculeService.rechercherParVilleEtCategorie(
+                        ville, categorie, pageable)
+                .map(VehiculeMapper::toDTO);
     }
 
     @PostMapping

@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "AutoLoc API Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "clientId", "value": "" },
+    { "key": "vehiculeId", "value": "" },
+    { "key": "reservationId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "01 - Clients",
+      "item": [
+        {
+          "name": "Lister les clients",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/clients" }
+        },
+        {
+          "name": "Créer un client",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"nom\":\"Ben Ali\",\"prenom\":\"Amine\",\"email\":\"amine@example.com\",\"telephone\":\"22123456\",\"numPermis\":\"P123456\",\"dateInscription\":\"2026-01-01\"}" },
+            "url": "{{baseUrl}}/api/clients"
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Vehicules",
+      "item": [
+        {
+          "name": "Lister les véhicules",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/vehicules" }
+        },
+        {
+          "name": "Lister les disponibles",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/vehicules/disponibles?page=0&size=20" }
+        }
+      ]
+    },
+    {
+      "name": "03 - Reservations",
+      "item": [
+        {
+          "name": "Lister les réservations",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/reservations" }
+        }
+      ]
+    },
+    {
+      "name": "10 - Validations",
+      "item": [
+        {
+          "name": "Client invalide",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"nom\":\"\",\"prenom\":\"A\",\"email\":\"incorrect\",\"telephone\":\"1\",\"numPermis\":\"\",\"dateInscription\":null}" },
+            "url": "{{baseUrl}}/api/clients"
+          }
+        }
+      ]
+    }
+  ]
+}

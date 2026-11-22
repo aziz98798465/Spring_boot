@@ -2,6 +2,10 @@ package tn.esprit.autoloc.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import tn.esprit.autoloc.domain.CategorieVehicule;
+import tn.esprit.autoloc.domain.StatutVehicule;
 import tn.esprit.autoloc.domain.Vehicule;
 import tn.esprit.autoloc.repository.VehiculeRepository;
 
@@ -78,5 +82,20 @@ public class VehiculeService implements IVehiculeService {
         vehiculeValidator.valider(vehicule);
         vehiculeValidator.validerNombreJours(nombreJours);
         return vehicule.getTarifJournalier().doubleValue() * nombreJours;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Vehicule> rechercherDisponibles(Pageable pageable) {
+        return vehiculeRepository.findByStatut(
+                StatutVehicule.DISPONIBLE, pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Vehicule> rechercherParVilleEtCategorie(
+            String ville, CategorieVehicule categorie, Pageable pageable) {
+        return vehiculeRepository.findByAgenceVilleIgnoreCaseAndCategorie(
+                ville, categorie, pageable);
     }
 }

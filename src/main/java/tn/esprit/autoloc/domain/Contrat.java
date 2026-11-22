@@ -1,6 +1,7 @@
 
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,6 +31,7 @@ public class Contrat {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_reservation", unique = true)
+    @JsonIgnore
     private Reservation reservation;
 
     @OneToMany(
@@ -37,5 +39,6 @@ public class Contrat {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
+    @JsonIgnore
     private List<Paiement> paiements = new ArrayList<>();
 }

@@ -1,6 +1,7 @@
 
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,5 +29,6 @@ public class Maintenance {
             cascade = CascadeType.PERSIST
     )
     @JoinColumn(name = "id_vehicule")
+    @JsonIgnore
     private Vehicule vehicule;
 }
